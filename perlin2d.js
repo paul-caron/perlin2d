@@ -13,7 +13,7 @@ class Gradient{
 }
 
 class Perlin2DLinear{
-    constructor(width,height,cellWidth,blurSteps){
+    constructor(width,height,cellSize,blurSteps){
         this.width=width
         this.height=height
         this.cellSize=cellSize
