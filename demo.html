@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Perlin2DLinear via jsDelivr</title>
+  <style>
+    canvas { border: 1px solid #333; display: block; margin: 20px auto; }
+  </style>
+</head>
+<body>
+  <h2 style="text-align: center;">Perlin2DLinear Noise (via GitHub CDN)</h2>
+  <canvas id="noiseCanvas" width="300" height="300"></canvas>
+
+  <!-- Include the library directly from GitHub using jsDelivr -->
+  <script src="https://cdn.jsdelivr.net/gh/paul-caron/perlin2d@master/perlin2d.js"></script>
+
+  <script>
+    // Ensure the library loaded and the class is available
+    if (typeof Perlin2DLinear !== 'function') {
+      console.error('Perlin2DLinear not found — check that the script path and class name are correct.');
+    } else {
+      const width = 300, height = 300;
+      const cellSize = 10;
+      const blurSteps = 100;
+
+      // Instantiate and generate the noise
+      const noise = new Perlin2DLinear(width, height, cellSize, blurSteps);
+
+      const canvas = document.getElementById('noiseCanvas');
+      const ctx = canvas.getContext('2d');
+      const imageData = ctx.createImageData(width, height);
+
+      // Map noise values (-1 to +1) to grayscale 0–255
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const val = noise.noiseGrid[y][x];
+          const c = Math.floor((val + 1) * 127.5);
+          const idx = (y * width + x) * 4;
+          imageData.data[idx] = c;
+          imageData.data[idx + 1] = c;
+          imageData.data[idx + 2] = c;
+          imageData.data[idx + 3] = 255;
+        }
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+    }
+  </script>
+</body>
+</html>
